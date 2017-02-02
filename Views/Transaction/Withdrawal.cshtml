@@ -1,0 +1,29 @@
+﻿@model tut1.Models.TransferViewModel
+@{
+    ViewBag.Title = "Withdrawal";
+}
+
+<h2>Transfer</h2>
+
+@Html.Partial("_WithdrawalForm")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        // delegate submit event to document, since form might be replaced
+        $(document).on('submit', '#withdrawalForm', function () {
+            var $theForm = $(this);
+            // manually trigger validation
+            if ($theForm.valid()) {
+                $('#progress').show();
+                $.post("", $theForm.serialize())
+                    .done(function(response){
+                    $theForm.replaceWith(response);
+                    })
+            }
+            return false;
+        });
+    </script>
+}
+

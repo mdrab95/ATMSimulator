@@ -1,0 +1,61 @@
+﻿@model tut1.Models.EmailFormModel
+@using (Html.BeginForm("Home", "Contact", FormMethod.Post, new { id = "contactForm" }))
+{
+
+    <h3>@ViewBag.Message</h3>
+    @Html.AntiForgeryToken()
+    <form method="post" id="contactForm">
+        <div class="form-group col-md-12" style="margin-top:20px;">
+            @Html.LabelFor(m => m.FromName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FromName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.FromName)
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            @Html.LabelFor(m => m.FromEmail, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FromEmail, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FromEmail)
+            </div>
+        </div>
+
+        <div id="formSection" style="margin-bottom:30px;" class="col-md-12">
+
+            @Html.LabelFor(m => m.Message, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.Message, new
+           {
+               maxlength = "500",
+               @class = "form-control",
+               data_bind = "value:message, valueUpdate:'input'"
+           })
+                @Html.ValidationMessageFor(m => m.Message)
+            </div>
+            <div class="col-md-12 col-md-offset-2">
+                <span data-bind="text:charactersRemaining"></span> characters remaining.
+            </div>
+            <div class="col-md-12 col-md-offset-2" style="margin-top:20px;">
+                <input type="submit" value="Send" class="btn btn-default" />
+            </div>
+            <div class="col-md-12 col-md-offset-2" style="margin-top:30px;">
+                <img src="~/Images/eurogif.gif" id="progress" style="display:none;" />
+            </div>
+        </div>
+    </form>
+}
+
+@* partial page updates using microsoft jquery unobtrusive ajax
+    <div id="formSection">
+        <h3>@ViewBag.Message</h3>
+        @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "formSection" }))
+        {
+        <textarea name = "message" ></textarea >
+        <input type = "submit" value = "Send" />
+        }
+    </div>
+
+    @section scripts{
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    }
+*@
