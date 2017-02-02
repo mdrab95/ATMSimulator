@@ -1,0 +1,53 @@
+﻿@model tut1.Models.TransferViewModel
+@{
+    ViewBag.Title = "Contact";
+}
+
+<h2>Contact</h2>
+
+<address>
+    Bank of Sunnyvale<br />
+    Sunnyvale, Canada <br />
+    <abbr title="Phone">Phone:</abbr>
+    123.456.789
+</address>
+
+<address>
+    <strong>Support:</strong>   <a href="mailto:Support@example.com">Julian@bos.com</a><br />
+    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Ricky@bos.com</a> <br />
+    <strong>Sheld-n-Breakfast for Kitties</strong>   <a href="mailto:Support@example.com">Bubbles@bos.com</a><br />
+</address>
+
+@Html.Partial("_ContactForm")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        // delegate submit event to document, since form might be replaced
+        $(document).on('submit', '#contactForm', function () {
+            var $theForm = $(this);
+            // manually trigger validation
+            if ($theForm.valid()) {
+                $('#progress').show();
+                $.post("", $theForm.serialize())
+                    .done(function(response){
+                    $theForm.replaceWith(response);
+                    })
+            }
+            return false;
+        });
+    </script>
+
+<script src="~/Scripts/knockout-3.4.1.js"></script>
+<script>
+        function ContactViewModel() {
+                var self = this;
+                self.message = ko.observable('');
+                self.charactersRemaining = ko.computed(function () {
+                    return 500-self.message().length
+                });
+        }
+        ko.applyBindings(new ContactViewModel);
+</script>
+}
